@@ -13,7 +13,7 @@ exports.addon = function (renderer) {
                 putRaw.apply(null, arguments);
             // eslint-disable-next-line no-empty
             } catch (error) {
-                console.error(error);
+                // ignore invalid rules
             }
         };
     }
