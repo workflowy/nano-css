@@ -77,16 +77,6 @@ exports.create = function (config) {
                 // eslint-disable-next-line no-empty
                 } catch (error) {}
             } else {
-                // Test if .insertRule() works in dev mode. Unknown pseudo-selectors will throw when
-                // .insertRule() is used, but .appendChild() will not throw.
-                try {
-                    renderer.shTest.sheet.insertRule(rawCssRule, renderer.shTest.sheet.cssRules.length);
-                } catch (error) {
-                    if (config.verbose) {
-                        console.error(error);
-                    }
-                }
-
                 // Insert pretty-printed CSS for dev mode.
                 renderer.sh.appendChild(document.createTextNode(rawCssRule));
             }
