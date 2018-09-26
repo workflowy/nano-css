@@ -65,21 +65,13 @@ exports.create = function (config) {
         }
 
         renderer.putRaw = function (rawCssRule) {
-            // .insertRule() is faster than .appendChild(), that's why we use it in PROD.
-            // But CSS injected using .insertRule() is not displayed in Chrome Devtools,
-            // that's why we use .appendChild in DEV.
-            if (process.env.NODE_ENV === 'production') {
-                var sheet = renderer.sh.sheet;
+            var sheet = renderer.sh.sheet;
 
-                // Unknown pseudo-selectors will throw, this try/catch swallows all errors.
-                try {
-                    sheet.insertRule(rawCssRule, sheet.cssRules.length);
-                // eslint-disable-next-line no-empty
-                } catch (error) {}
-            } else {
-                // Insert pretty-printed CSS for dev mode.
-                renderer.sh.appendChild(document.createTextNode(rawCssRule));
-            }
+            // Unknown pseudo-selectors will throw, this try/catch swallows all errors.
+            try {
+                sheet.insertRule(rawCssRule, sheet.cssRules.length);
+            // eslint-disable-next-line no-empty
+            } catch (error) {}
         };
     }
 
