@@ -62,7 +62,11 @@ exports.addon = function (renderer) {
                 str = atrule + '{' + str + '}';
             }
 
-            renderer.putRaw(str);
+            if (renderer.putSemiRaw) {
+                renderer.putSemiRaw(selector, rawDecl, atrule);
+            } else {
+                renderer.putRaw(str);
+            }
         }
 
         return className;

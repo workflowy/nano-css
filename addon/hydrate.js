@@ -19,7 +19,7 @@ exports.addon = function (renderer) {
 
         var put = renderer.put;
 
-        renderer.put = function (selector, css) {
+        renderer.put = function (selector, css, atrule) {
             if (selector in hydrated) {
                 if (process.env.NODE_ENV !== 'production') {
                     // eslint-disable-next-line
@@ -29,7 +29,26 @@ exports.addon = function (renderer) {
                 return;
             }
 
-            put(selector, css);
+            put(selector, css, atrule);
+        };
+
+        renderer.putSemiRaw = function (selector, rawDecl, atrule) {
+            if (selector in hydrated) {
+                if (process.env.NODE_ENV !== 'production') {
+                    // eslint-disable-next-line
+                    console.info('Hydrated selector: ' + selector);
+                }
+
+                return;
+            }
+
+            var str = selector + '{' + rawDecl + '}';
+
+            if (atrule) {
+                str = atrule + '{' + str + '}';
+            }
+
+            renderer.putRaw(str);
         };
     }
 };
