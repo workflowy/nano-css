@@ -10,8 +10,13 @@ exports.addon = function (renderer) {
     renderer.hydrate = function (sh) {
         var cssRules = sh.cssRules || sh.sheet.cssRules;
 
-        for (var i = 0; i < cssRules.length; i++)
-            hydrated[cssRules[i].selectorText] = 1;
+        var test = new RegExp(`^\\.${renderer.pfx}\\w+$`);
+        for (var i = 0; i < cssRules.length; i++) {
+            // Only hydrate rules that are generated classnames
+            if (test.test(cssRules[i].selectorText)) {
+                hydrated[cssRules[i].selectorText] = 1;
+            }
+        }
     };
 
     if (renderer.client) {
